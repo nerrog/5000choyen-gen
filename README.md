@@ -8,6 +8,8 @@ CyberRexさんが作った[5000choyen-api](https://github.com/CyberRex0/5000choy
 
 ## インストール
 
+Microsoft開発者アカウントを取得していないためStore以外からのインストールになります
+
 [この](https://cdn.nerrog.net/5000choyen/)ページを開き、
 
 ![image](https://user-images.githubusercontent.com/48819514/112844652-ec81c880-90de-11eb-8668-62a18cf59605.png)
