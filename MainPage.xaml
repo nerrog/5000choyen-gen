@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="_5000choyen_gn.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:_5000choyen_gn"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Height="933" Width="1508">
+
+    <Grid Margin="0,0,0,10">
+        <Image x:Name="showimg" HorizontalAlignment="Left" Height="276" Margin="68,0,0,0" VerticalAlignment="Center" Width="642">
+            <Image.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Text="画像を保存"  Click="SaveImage_Click" Icon="Save" />
+                </MenuFlyout>
+            </Image.ContextFlyout>
+        </Image>
+        <TextBox x:Name="toptxt" HorizontalAlignment="Left" Margin="68,82,0,0" Text="上部文字列" TextWrapping="Wrap" VerticalAlignment="Top" Height="80" Width="397"/>
+        <TextBox x:Name="bottomtxt" HorizontalAlignment="Left" Margin="68,192,0,0" Text="下部文字列" TextWrapping="Wrap" VerticalAlignment="Top" Height="80" Width="397"/>
+        <Button x:Name="btn" Content="生成" Margin="499,211,0,0" VerticalAlignment="Top" Height="80" Width="211" Click="Button_Click"/>
+        <Grid Margin="499,82,457,0" Visibility="Visible" RequestedTheme="Default" VerticalAlignment="Top" Height="124">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="181*"/>
+                <ColumnDefinition Width="173*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox  x:Name="Rainbow" Content="虹色" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="hoshii" Content="下部文字列を「欲しい！」に固定" Margin="10,89,0,0" VerticalAlignment="Top"/>
+            <CheckBox x:Name="white" Content="背景色を白にする" Margin="10,51,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="68,605,0,0" Text="画像は右クリックで保存できます" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="184"/>
+        <TextBlock HorizontalAlignment="Left" Margin="531,605,0,0" Text="Made By @nerrog_blog &#xa; API by @0xerrebyc" TextWrapping="Wrap" VerticalAlignment="Top" Height="43" Width="178"/>
+
+    </Grid>
+</Page>
