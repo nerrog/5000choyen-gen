@@ -23,12 +23,24 @@ Microsoft開発者アカウントを取得していないためStore以外から
 
 ![image](https://user-images.githubusercontent.com/48819514/112845647-0ec81600-90e0-11eb-90f7-078ec3c528be.png)
 
-
 インストールできたら、アプリを取得するをクリックして、「インストール」をクリックします。
 
 ![image](https://user-images.githubusercontent.com/48819514/112845550-edffc080-90df-11eb-89c6-f9e02b24bb30.png)
 
 これでインストール完了です！
+
+##**重要**
+`アプリをインストールできませんでした。エラー メッセージ: エラー 0xC00CEE23: .appinstaller ファイルの XML が無効: 行 64、列 3、理由: '>' が必要です。 (0xc00cee23)`
+
+と表示され、インストールできない不具合を確認しています
+
+そのときは証明書をインストールしたあと
+
+`アプリを取得する`ではなくPackage Bundleからappxbundleをダウンロードしてインストールしてください。
+
+![image](https://user-images.githubusercontent.com/48819514/113007518-40f57880-91b1-11eb-8c26-72c482cf6151.png)
+
+
 
 ## 使用方法
 
