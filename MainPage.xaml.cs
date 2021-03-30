@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
+
 // 空白ページの項目テンプレートについては、https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x411 を参照してください
 
 namespace _5000choyen_gn
@@ -27,6 +28,7 @@ namespace _5000choyen_gn
     {
         byte[] imageBytes;
         BitmapImage biSource;
+        string type = "";
 
         public MainPage()
         {
@@ -35,9 +37,29 @@ namespace _5000choyen_gn
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            string apiurl = "https://gsapi.cyberrex.ml/image?top=" + toptxt.Text+"&bottom="+bottomtxt.Text;
+            string apiurl = "https://gsapi.cyberrex.ml/image";
 
-            btn.Content = "生成中...";
+            //Invalid Request対策
+            if ((toptxt.Text == "") && (bottomtxt.Text == ""))
+            {
+                var msg = new ContentDialog();
+                msg.Title = "エラー";
+                msg.Content = "両方のテキストボックスが空です";
+                msg.PrimaryButtonText = "OK";
+                await msg.ShowAsync();
+                return;
+            }
+
+            if (toptxt.Text != "")
+            {
+                apiurl += "?top="+ toptxt.Text;
+            }
+
+            if (toptxt.Text != "")
+            {
+                apiurl += "&bottom=" + bottomtxt.Text;
+            }
+
             //オプション系
             if (Rainbow.IsChecked == true)
             {
@@ -51,31 +73,73 @@ namespace _5000choyen_gn
             {
                 apiurl += "&noalpha=true";
             }
+            if (single.IsChecked == true)
+            {
+                apiurl += "&single=true";
+            }
 
-            //APIから画像をダウンロードしてbyte型でメモリ上に保存
-            //byte型なのは後に画像保存するときに2重でダウンロードしないため
-            //Imageに表示させるためにbyte型からBitmapImageへ変換
-            
-            using (var webClient = new WebClient())
+            //ファイル形式
+            if (png.IsChecked == true)
             {
-                imageBytes = webClient.DownloadData(apiurl);
+                apiurl += "&type=png";
+                type = ".png";
+
             }
-            biSource = new BitmapImage();
-            using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+            else if (jpeg.IsChecked == true)
             {
-                await stream.WriteAsync(imageBytes.AsBuffer());
-                stream.Seek(0);
-                await biSource.SetSourceAsync(stream);
+                apiurl += "&type=jpg";
+                type = ".jpg";
             }
-            showimg.Source = biSource;
-            btn.Content = "生成";
+            else if (webp.IsChecked == true)
+            {
+                apiurl += "&type=webp";
+                type = ".webp";
+            }
+
+                //APIから画像をダウンロードしてbyte型でメモリ上に保存
+                //byte型なのは後に画像保存するときに2重でダウンロードしないため
+                //Imageに表示させるためにbyte型からBitmapImageへ変換
+
+                using (var webClient = new WebClient())
+            {
+                try
+                {
+                    imageBytes = webClient.DownloadData(apiurl);
+                    biSource = new BitmapImage();
+                    using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
+                    {
+                        await stream.WriteAsync(imageBytes.AsBuffer());
+                        stream.Seek(0);
+                        await biSource.SetSourceAsync(stream);
+                        Debug.WriteLine(apiurl);
+                        showimg.Source = biSource;
+                    }
+                    
+                }
+                catch (WebException ex)
+                {
+                   if (ex.Status == WebExceptionStatus.ProtocolError) {
+                        System.Net.HttpWebResponse errres =
+                            (System.Net.HttpWebResponse)ex.Response;
+                        if ((int)errres.StatusCode != 200)
+                        {
+                            var msg = new ContentDialog();
+                            msg.Title = "エラー";
+                            msg.Content = $"APIステータスコード:{(int)errres.StatusCode}";
+                            msg.PrimaryButtonText = "OK";
+                            await msg.ShowAsync();
+                        }
+                    }
+                }
+            }
+
 
         }
         
         private async void SaveImage_Click(object sender, RoutedEventArgs e)
         {
             FileSavePicker savePicker = new FileSavePicker();
-            savePicker.FileTypeChoices.Add("png File", new List<string> { ".png" });
+            savePicker.FileTypeChoices.Add($"{type} File", new List<string> { type });
             StorageFile file = await savePicker.PickSaveFileAsync();
             if (file != null)
             {

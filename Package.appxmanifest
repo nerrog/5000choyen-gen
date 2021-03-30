@@ -9,7 +9,7 @@
   <Identity
     Name="21de97d1-c1de-4499-bdc1-1096752f9123"
     Publisher="CN=nerrog"
-    Version="1.0.0.0" />
+    Version="1.0.6.0" />
 
   <mp:PhoneIdentity PhoneProductId="21de97d1-c1de-4499-bdc1-1096752f9123" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
