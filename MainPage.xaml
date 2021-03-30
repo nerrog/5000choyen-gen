@@ -18,6 +18,11 @@
                             <SymbolIcon Symbol="Save"/>
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="画像をコピー"  Click="CopyImage_Click" >
+                        <MenuFlyoutItem.Icon>
+                            <SymbolIcon Symbol="Copy"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
                 </MenuFlyout>
             </Image.ContextFlyout>
         </Image>
@@ -39,8 +44,9 @@
                 <RadioButton x:Name="jpeg" Content="JPEG"/>
                 <RadioButton x:Name="webp" Content="WebP"/>
             </StackPanel>
+            <Custom:NumberBox x:Name="quality" HorizontalAlignment="Left" Margin="10,163,0,0" VerticalAlignment="Top" CompositeMode="Inherit" Value="100" SpinButtonPlacementMode="Compact" Width="154" PlaceholderText="画質(1～100)" Height="65" Minimum="1" Maximum="100" Text="" Header="画質(1～100):"/>
         </Grid>
-        <TextBlock HorizontalAlignment="Left" Margin="68,694,0,0" Text="画像は右クリックで保存できます" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="184"/>
+        <TextBlock HorizontalAlignment="Left" Margin="68,694,0,0" Text="画像は右クリックで保存、コピーできます" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="235"/>
         <TextBlock HorizontalAlignment="Left" Margin="531,678,0,0" Text="Made By @nerrog_blog &#xA; API by @0xerrebyc" TextWrapping="Wrap" VerticalAlignment="Top" Height="43" Width="178"/>
 
     </Grid>

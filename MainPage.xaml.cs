@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Graphics.Imaging;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 
@@ -32,6 +29,7 @@ namespace _5000choyen_gn
 
         public MainPage()
         {
+            ApplicationView.GetForCurrentView().TryResizeView(new Size { Width = 750, Height = 750 });
             this.InitializeComponent();
         }
 
@@ -77,6 +75,11 @@ namespace _5000choyen_gn
             {
                 apiurl += "&single=true";
             }
+            if (quality.Text != "")
+            {
+                apiurl += "&q="+quality.Value;
+            }
+
 
             //ファイル形式
             if (png.IsChecked == true)
@@ -125,7 +128,7 @@ namespace _5000choyen_gn
                         {
                             var msg = new ContentDialog();
                             msg.Title = "エラー";
-                            msg.Content = $"APIステータスコード:{(int)errres.StatusCode}";
+                            msg.Content = $"APIステータスコード:{(int)errres.StatusCode}\r\nエラー詳細:{ex.Message}";
                             msg.PrimaryButtonText = "OK";
                             await msg.ShowAsync();
                         }
@@ -147,6 +150,18 @@ namespace _5000choyen_gn
                 IBuffer buf = imageBytes.AsBuffer();
                 await Windows.Storage.FileIO.WriteBufferAsync(file, buf);
             }
+        }
+
+        private async void CopyImage_Click(object sender, RoutedEventArgs e)
+        {
+            //クリップボードへコピーする処理
+            InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream();
+            await randomAccessStream.WriteAsync(imageBytes.AsBuffer());
+            randomAccessStream.Seek(0);
+            RandomAccessStreamReference streamRef = RandomAccessStreamReference.CreateFromStream(randomAccessStream);
+            var dp = new DataPackage();
+            dp.SetBitmap(streamRef);
+            Clipboard.SetContent(dp);
         }
 
     }
